@@ -1,0 +1,26 @@
+Scale Up
+Infrastructure Design
+
+When a user types www.foobar.com
+, the DNS resolves it to the IP of a load balancer cluster (two HAproxy servers). This setup improves availability in case one load balancer fails.
+
+The load balancers distribute incoming requests to multiple web servers (Nginx). These web servers only handle HTTP/HTTPS requests and serve static content.
+
+Dynamic requests are forwarded to separate application servers, which handle the application logic and process user requests.
+
+The application servers communicate with a dedicated database server (MySQL), which manages and stores all the data.
+
+Why we added these components
+Additional server: to handle more traffic and improve performance
+Second load balancer (cluster): to remove the single point of failure at the load balancer level
+Separated components (web, app, database): to improve scalability, performance, and maintainability
+Application server vs Web server
+Web server (Nginx): handles client requests, serves static files, and forwards dynamic requests
+Application server: processes business logic and interacts with the database
+Summary
+
+This architecture improves:
+
+Scalability (can handle more users)
+High availability (no single point of failure in load balancer)
+Performance (each component has its own role)

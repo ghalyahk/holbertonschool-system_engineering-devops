@@ -1,0 +1,33 @@
+Distributed Web Infrastructure
+Infrastructure Design
+
+When a user types www.foobar.com
+, the DNS resolves it to the IP of the load balancer (HAproxy). The request is sent to the load balancer, which distributes the traffic between two servers.
+
+Each server contains a web server (Nginx), an application server, and the application code. The web server receives the request and forwards it to the application server, which processes it.
+
+The application communicates with the MySQL database cluster, where one server acts as the Primary (Master) and the other as a Replica (Slave). The primary handles write operations, while the replica handles read operations.
+
+Why we added these components
+Load balancer: to distribute traffic and improve availability
+Second server: to handle more traffic and avoid full downtime
+Database replica: to improve performance and provide backup
+Load Balancer Algorithm
+
+The load balancer can use Round Robin, which distributes requests evenly between servers (one request to each server in order).
+
+Active-Active vs Active-Passive
+
+This setup is Active-Active, meaning both servers handle requests at the same time.
+
+Active-Active: both servers are working and sharing traffic
+Active-Passive: one server works, the other waits as backup
+Primary-Replica (Master-Slave) Database
+
+The Primary node handles write operations (INSERT, UPDATE).
+The Replica node copies data from the primary and is used for read operations.
+
+Issues in this Infrastructure
+SPOF: the load balancer is still a single point of failure
+Security issues: no firewall and no HTTPS encryption
+No monitoring: no system to track performance or failures

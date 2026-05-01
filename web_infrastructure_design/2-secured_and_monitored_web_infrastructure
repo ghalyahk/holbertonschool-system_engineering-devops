@@ -1,0 +1,37 @@
+Secured and Monitored Web Infrastructure
+Infrastructure Design
+
+When a user types www.foobar.com
+, the DNS resolves it to the IP of the load balancer. The request is sent over HTTPS using an SSL certificate to ensure encryption.
+
+The load balancer (HAproxy) distributes traffic between two servers (Active-Active). Each server contains a web server (Nginx), an application server, and the application code.
+
+The application communicates with a MySQL database cluster (Primary-Replica). The primary handles writes, while the replica handles reads.
+
+Each server is protected by a firewall, and each one has a monitoring client that sends data to a monitoring service.
+
+Why we added these components
+Firewalls: to protect servers from unauthorized access
+SSL certificate (HTTPS): to encrypt data between the user and the server
+Monitoring clients: to track performance, errors, and system health
+Explanations
+
+What are firewalls for?
+Firewalls filter incoming and outgoing traffic and block malicious requests.
+
+Why HTTPS?
+HTTPS encrypts data, protecting sensitive information from attackers.
+
+What is monitoring used for?
+Monitoring helps detect issues, track performance, and ensure the system is running properly.
+
+How does monitoring collect data?
+Monitoring agents (clients) run on each server and send logs and metrics to a central monitoring system.
+
+How to monitor web server QPS?
+By configuring the monitoring tool to track the number of requests handled by the web server per second using logs or metrics.
+
+Issues in this Infrastructure
+SSL termination at load balancer: traffic between load balancer and servers may not be encrypted
+Single MySQL write node: if the primary fails, write operations stop
+Same components on all servers: reduces efficiency and makes scaling harder
