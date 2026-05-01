@@ -1,0 +1,21 @@
+Simple Web Stack
+
+When a user types www.foobar.com
+ in the browser, the DNS resolves it to the IP 8.8.8.8. The browser then sends a request to the server.
+
+The request reaches the web server (Nginx), which either serves static content or forwards the request to the application server. The application server processes the request using the application code and, if needed, communicates with the MySQL database to get or store data. Finally, the response is sent back to the user.
+
+Components
+
+A server is a machine that provides services over a network.
+The domain name makes it easier to access the website instead of using an IP address.
+The www is an A record that points to the server IP.
+The web server (Nginx) handles requests and serves content.
+The application server processes logic.
+The database (MySQL) stores data.
+Communication happens using HTTP/HTTPS over TCP/IP.
+
+Issues
+SPOF: If the server fails, the website goes down.
+Downtime: Restarting the server causes temporary unavailability.
+No scaling: One server cannot handle high traffic.
